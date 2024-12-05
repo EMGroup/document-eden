@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="#" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/jquery-3.7.1.min.js"></script>
+
+    <!-- <script src="/jseden/jseden.min.js"></script>
+    
+    <script src="/jseden/plugins/jseden-plugins.min.js"></script>
+    <script src="/jseden/js/ui/jseden-ui.min.js"></script>
+     -->
+
+        <!-- Start JSEden -->
+        <script src="/jseden/js/lib/jquery.color.js"></script>
+        <script src="/jseden/js/lib/jquery.hotkeys.js"></script>
+        <script src="/jseden/js/lib/json2.js"></script>
+        <script src="/jseden/js/lib/diff_match_patch.js"></script>
+        <script src="/jseden/js/lib/showdown.min.js"></script>
+        <script src="/jseden/js/lib/peer.min.js"></script>
+        <script src="/jseden/js/util/misc.js"></script>
+        <script src="/jseden/js/util/diff.js"></script>
+        <script src="/jseden/js/core/runtime.js"></script>
+        <script src="/jseden/js/dummyconsole.js"></script>
+        <script src="/jseden/js/arrayCompareFix.js"></script>
+        <script src="/jseden/js/core/window-highlighter.js"></script>
+        <script src="/jseden/js/core/eden.js"></script>
+        <script src="/jseden/js/language/lang.js"></script>
+        <script src="/jseden/js/core/edenui.js"></script>
+        <script src="/jseden/js/core/scope.js"></script>
+        <script src="/jseden/js/core/symbol.js"></script>
+        <script src="/jseden/js/core/context.js"></script>
+        <script src="/jseden/js/core/database.js"></script>
+        <script src="/jseden/js/core/plugins.js"></script>
+        <script src="/jseden/js/util/url.js"></script>
+        <script src="/jseden/js/core/initialise.js"></script>
+        <script src="/jseden/js/lex.js"></script>
+        <script src="/jseden/js/core/errors.js"></script>
+        <script src="/jseden/js/core/warnings.js"></script>
+        <script src="/jseden/js/selectors/selector.js"></script>
+        <script src="/jseden/js/selectors/property.js"></script>
+        <script src="/jseden/js/selectors/name.js"></script>
+        <script src="/jseden/js/selectors/tag.js"></script>
+        <script src="/jseden/js/selectors/intersection.js"></script>
+        <script src="/jseden/js/selectors/union.js"></script>
+        <script src="/jseden/js/selectors/navigate.js"></script>
+        <script src="/jseden/js/index.js"></script>
+        <script src="/jseden/js/ast/ast.js"></script>
+        <script src="/jseden/js/ast/basestatement.js"></script>
+        <script src="/jseden/js/ast/basescript.js"></script>
+        <script src="/jseden/js/ast/basecontext.js"></script>
+        <script src="/jseden/js/ast/baseexpression.js"></script>
+        <script src="/jseden/js/ast/append.js"></script>
+        <script src="/jseden/js/ast/shift.js"></script>
+        <script src="/jseden/js/ast/assignment.js"></script>
+        <script src="/jseden/js/ast/after.js"></script>
+        <script src="/jseden/js/ast/binaryop.js"></script>
+        <script src="/jseden/js/ast/break.js"></script>
+        <script src="/jseden/js/ast/case.js"></script>
+        <script src="/jseden/js/ast/codeblock.js"></script>
+        <script src="/jseden/js/ast/context.js"></script>
+        <script src="/jseden/js/ast/continue.js"></script>
+        <script src="/jseden/js/ast/declarations.js"></script>
+        <script src="/jseden/js/ast/default.js"></script>
+        <script src="/jseden/js/ast/definition.js"></script>
+        <script src="/jseden/js/ast/delete.js"></script>
+        <script src="/jseden/js/ast/do.js"></script>
+        <script src="/jseden/js/ast/doxycomments.js"></script>
+        <script src="/jseden/js/ast/dummy.js"></script>
+        <script src="/jseden/js/ast/for.js"></script>
+        <script src="/jseden/js/ast/function.js"></script>
+        <script src="/jseden/js/ast/functioncall.js"></script>
+        <script src="/jseden/js/ast/handle.js"></script>
+        <script src="/jseden/js/ast/if.js"></script>
+        <script src="/jseden/js/ast/import.js"></script>
+        <script src="/jseden/js/ast/index.js"></script>
+        <script src="/jseden/js/ast/insert.js"></script>
+        <script src="/jseden/js/ast/length.js"></script>
+        <script src="/jseden/js/ast/literal.js"></script>
+        <script src="/jseden/js/ast/llist.js"></script>
+        <script src="/jseden/js/ast/local.js"></script>
+        <script src="/jseden/js/ast/lvalue.js"></script>
+        <script src="/jseden/js/ast/modify.js"></script>
+        <script src="/jseden/js/ast/parameter.js"></script>
+        <script src="/jseden/js/ast/primary.js"></script>
+        <script src="/jseden/js/ast/proc.js"></script>
+        <script src="/jseden/js/ast/range.js"></script>
+        <script src="/jseden/js/ast/require.js"></script>
+        <script src="/jseden/js/ast/return.js"></script>
+        <script src="/jseden/js/ast/scope.js"></script>
+        <script src="/jseden/js/ast/scopedscript.js"></script>
+        <script src="/jseden/js/ast/scopepath.js"></script>
+        <script src="/jseden/js/ast/substatement.js"></script>
+        <script src="/jseden/js/ast/scopepattern.js"></script>
+        <script src="/jseden/js/ast/script.js"></script>
+        <script src="/jseden/js/ast/virtual.js"></script>
+        <script src="/jseden/js/ast/scriptexpr.js"></script>
+        <script src="/jseden/js/ast/subscribers.js"></script>
+        <script src="/jseden/js/ast/switch.js"></script>
+        <script src="/jseden/js/ast/ternaryop.js"></script>
+        <script src="/jseden/js/ast/unaryop.js"></script>
+        <script src="/jseden/js/ast/wait.js"></script>
+        <script src="/jseden/js/ast/when.js"></script>
+        <script src="/jseden/js/ast/while.js"></script>
+        <script src="/jseden/js/ast/querystat.js"></script>
+        <script src="/jseden/js/ast/alias.js"></script>
+        <script src="/jseden/js/ast/indexed.js"></script>
+        <script src="/jseden/js/ast/section.js"></script>
+        <script src="/jseden/js/ast/customblock.js"></script>
+        <script src="/jseden/js/ast/async.js"></script>
+        <script src="/jseden/js/ast/cs3_html.js"></script>
+        <script src="/jseden/js/grammar/actionbody.js"></script>
+        <script src="/jseden/js/grammar/after.js"></script>
+        <script src="/jseden/js/grammar/attributes.js"></script>
+        <script src="/jseden/js/grammar/declarations.js"></script>
+        <script src="/jseden/js/grammar/do.js"></script>
+        <script src="/jseden/js/grammar/expression.js"></script>
+        <script src="/jseden/js/grammar/factor.js"></script>
+        <script src="/jseden/js/grammar/for.js"></script>
+        <script src="/jseden/js/grammar/function.js"></script>
+        <script src="/jseden/js/grammar/if.js"></script>
+        <script src="/jseden/js/grammar/import.js"></script>
+        <script src="/jseden/js/grammar/listops.js"></script>
+        <script src="/jseden/js/grammar/lists.js"></script>
+        <script src="/jseden/js/grammar/lvalue.js"></script>
+        <script src="/jseden/js/grammar/primary.js"></script>
+        <script src="/jseden/js/grammar/template.js"></script>
+        <script src="/jseden/js/grammar/proc.js"></script>
+        <script src="/jseden/js/grammar/scope.js"></script>
+        <script src="/jseden/js/grammar/script.js"></script>
+        <script src="/jseden/js/grammar/selector.js"></script>
+        <script src="/jseden/js/grammar/statement.js"></script>
+        <script src="/jseden/js/grammar/switch.js"></script>
+        <script src="/jseden/js/grammar/terms.js"></script>
+        <script src="/jseden/js/grammar/wait.js"></script>
+        <script src="/jseden/js/grammar/when.js"></script>
+        <script src="/jseden/js/grammar/while.js"></script>
+        <script src="/jseden/js/grammar/query.js"></script>
+        <script src="/jseden/js/grammar/section.js"></script>
+        <script src="/jseden/js/grammar/cs3_html.js"></script>
+        <script src="/jseden/js/core/engine.js"></script>
+        <script src="/jseden/js/project.js"></script>
+        <script src="/jseden/js/fragment.js"></script>
+        <script src="/jseden/js/util/css.js"></script>
+        <script src="/jseden/js/peer.js"></script>
+        <script src="/jseden/js/query.js"></script>
+        <script src="/jseden/js/generator.js"></script>
+        <script src="/jseden/plugins/input-dialog/scriptarea.js"></script>
+        <script src="/jseden/plugins/input-dialog/details.js"></script>
+        <script src="/jseden/plugins/input-dialog/keyboard.js"></script>
+        <script src="/jseden/plugins/input-dialog/mouse.js"></script>
+        <script src="/jseden/plugins/input-dialog/interpreter.js"></script>
+        <script src="/jseden/plugins/input-dialog/subdialogs.js"></script>
+        <script src="/jseden/js/ui/highlighter.js"></script>
+        <script src="/jseden/js/ui/highlighter-rules.js"></script>
+        <script src="/jseden/js/ui/highlighter-commentrules.js"></script>
+        <script src="/jseden/js/ui/cs3_htmlrules.js"></script>
+        <script src="/jseden/plugins/input-dialog/gutter.js"></script>
+        <script src="/jseden/js/ui/contextmenu.js"></script>
+        <script src="/jseden/js/ui/buttonbar.js"></script>
+        <script src="/jseden/js/ui/tabs.js"></script>
+        <script src="/jseden/plugins/plugin-listing/plugin-listing.js"></script>
+        <script src="/jseden/js/ui/menubar.js"></script>
+        <script src="/jseden/js/ui/notifications.js"></script>
+        <script src="/jseden/js/ui/sharebox.js"></script>
+        <script src="/jseden/js/ui/search.js"></script>
+        <script src="/jseden/js/ui/dialogs.js"></script>
+        <script src="/jseden/js/ui/explorer.js"></script>
+        <script src="/jseden/js/ui/explorer-state.js"></script>
+        <script src="/jseden/js/ui/explorer-script.js"></script>
+        <script src="/jseden/js/ui/debugger.js"></script>
+        <script src="/jseden/js/ui/scriptbox.js"></script>
+        <script src="/jseden/js/ui/presentation.js"></script>
+        <script src="/jseden/js/ui/markdown.js"></script>
+        <script src="/jseden/js/ui/projectdetails.js"></script>
+        <script src="/jseden/js/ui/feedback.js"></script>
+        <script src="/jseden/plugins/canvas/canvas.js"></script>
+        <script src="/jseden/plugins/symbol-viewer/symbol-viewer.js"></script>
+        <script src="/jseden/plugins/version-viewer/version-viewer.js"></script>
+        <script src="/jseden/plugins/p2pmanager/p2pmanager.js"></script>
+        <script src="/jseden/plugins/external-html-content/external-html-content.js"></script>
+        <script src="/jseden/plugins/html/html-views.js"></script>
+        <script src="/jseden/plugins/expression-tree/expression-tree.js"></script>
+        <script src="/jseden/plugins/page/page.js"></script>
+        <script src="/jseden/plugins/midi/midi.js"></script>
+        <script src="/jseden/plugins/midi/emulation/midi.js-bridge.js"></script>
+        <script src="/jseden/plugins/midi/emulation/midi-file.js"></script>
+        <script src="/jseden/plugins/systemSymbols.js"></script>
+        <script src="/jseden/plugins/symbol-lookup-table/symbol-lookup-table.js"></script>
+        <script src="/jseden/plugins/observable-mining/observable-mining.js"></script>
+        <script src="/jseden/plugins/script-generator/script-generator.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
+        <script src="/jseden/plugins/dependency-map/dependency-map.js"></script>
+        <script src="/jseden/plugins/state-timeline/state-timeline.js"></script>
+        <script src="/jseden/plugins/state-listener/state-listener.js"></script>
+        <script src="/jseden/plugins/network-remote/network-remote.js"></script>
+        <script src="/jseden/plugins/view-layout/view-layout.js"></script>
+        <script src="/jseden/plugins/adm/adm-input.js"></script>
+        <script src="/jseden/plugins/dbview/dbview.js"></script>
+        <script src="/jseden/plugins/veden/veden.js"></script>
+        <script src="/jseden/plugins/veden/element.js"></script>
+        <script src="/jseden/plugins/veden/index.js"></script>
+        <script src="/jseden/plugins/veden/observable.js"></script>
+        <script src="/jseden/plugins/veden/number.js"></script>
+        <script src="/jseden/plugins/veden/lvalue.js"></script>
+        <script src="/jseden/plugins/veden/operator.js"></script>
+        <script src="/jseden/plugins/veden/modifier.js"></script>
+        <script src="/jseden/plugins/veden/group.js"></script>
+        <script src="/jseden/plugins/veden/statement.js"></script>
+        <script src="/jseden/plugins/veden/when.js"></script>
+        <script src="/jseden/plugins/veden/boolean.js"></script>
+        <script src="/jseden/plugins/veden/string.js"></script>
+        <script src="/jseden/plugins/veden/with.js"></script>
+        <script src="/jseden/plugins/veden/list.js"></script>
+        <script src="/jseden/plugins/speech-synthesis/speech-synthesis.js"></script>
+        <script src="/jseden/plugins/observable-palette/observable-palette.js"></script>
+        <!-- End JSEden -->
+    
+        <!-- <script src="/jseden/js/core/jseden.min.js"></script>
+        <script src="/jseden/plugins/jseden-plugins.min.js"></script> -->
+        
+        <script>
+          URLUtil.prefix = "/jseden/";
+        </script>
+    <script type="module" src="/document-eden/document-eden.js"></script>
+    <style>
+      body,button{
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Basic Observables/Dependencies</h1>
+    <p>This is an example of a basic document using the document-eden library</p>
+    <p>We can define an observable £a = 6£.</p>
+    <p>Click the blue underlines value of a to change it</p>
+    <script type="text/jseden">
+      b is a * 10;
+    </script>
+    <p>Ten times that observable is £b£.</p>
+    <hr>
+    <h1>Changing attributes in HTML</h1>
+    <p>Observables can change the value of any HTML element, by changing the content or the attributes: £fontsize=40£</p>
+    <p>If you need to change the attribute, remember to add a <code>data-query</code> attribute to the tag.</p>
+    <p style="font-size:£fontsize£px" data-query>This is size £fontsize£px</p>
+    <hr>
+    <h1>Changing attributes in SVG</h1>
+    <p>You can change the values of the £colour=red£ square</p>
+    <p>Idea - add some UI for options for the colour instead of typing it - maybe even a colour picker?!</p>
+    <div>
+      <p>rx: £rx=50£, ry: £ry=50£</p>
+      <p>rWidth: £rWidth=50£, rHeight: £rHeight=50£</p>
+    </div>
+    <svg width="100%" height="200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="£rWidth£" height="£rHeight£" x="£rx£" y="£ry£" fill="£colour£" data-query/>
+    </svg>
+    <hr>
+    <h1>JS-Eden Canvas</h1>
+    <p>Or you can use a JS-Eden style canvas (looks exactly the same, but added black border just for a bit of a difference!):</p>
+    <script type="text/jseden">
+      r is Rectangle(rx,ry,rWidth,rHeight,colour, "black");
+      picture is [r];
+      view_picture_height = 200;
+      view_picture_width = 400;
+    </script>
+    <div class="eden-picture" data-observable="picture">
+      
+    </div>
+    <p>See the source of this page to set canvas size - <code>view_picture_height</code> and <code>view_picture_width</code>.</p>
+    <hr>
+    <h1>Actions</h1>
+    <p>Actions can be named (see the source code of this bit)</p>
+    <script type="text/jseden" data-action="changecolour">
+      action changeRectangle{
+        colour = nextColour;
+      }
+      nextColour is "red" if colour == "green" else "green";
+    </script>
+    <p>An action can contain an action (a tab in JS-Eden is an action).</p>
+    <p>Can link an action to a button like this (will change the above rectangle colour to £nextColour£):</p>
+    <button class="runAction" data-action="changecolour > changeRectangle">changeRectangle</button>
+    <p>Could also script it from JS as <code>DocumentEden.runAction(actionName);</code></p>
+    <hr>
+    <h1>Saving/Reloading State</h1>
+    <p>Might by appropriate to move between different 'phases' - allowing for definitions before and after a particular action has taken place</p>
+    <p>Could save lots of different states in a JS object, then reload particular ones</p>
+    <p>Message: £c£</p>
+    <script type="text/jseden" data-action="states">
+      c = "Before stateA";
+      action stateA{
+        c = "After stateA";
+      }
+    </script>
+    <script>
+      let savedState;
+
+      function stateDemo(){
+        savedState = DocumentEden.saveState();
+      }
+      function loadState(){
+        DocumentEden.loadState(savedState, 1);
+      }
+    </script>
+    <button onclick="stateDemo()">save state</button>
+    <button class="runAction" data-action="states > stateA">do state A</button>
+    <button onclick="loadState()">restore state</button>
+    <hr>
+    <h1>Using JSEden plugins</h1>
+    <p></p>
+    <div id="myscript" data-observable="">
+      
+    </div>
+    <h1>Check Clocks</h1>
+    <p>Uncomment this section to test (it works, but generates a lot of console logs!)</p>
+    <script type="text/jseden">
+      action clockeden is ?(lib > clocks);
+      do clockeden;
+      setedenclock(&tick, 300);
+    </script>
+    <!-- <script type="text/jseden">
+    do lib > clocks;
+    setedenclock(&tick,30);
+    </script>
+ -->
+ <p>Tick is £tick£</p>
+  </body>
+</html>

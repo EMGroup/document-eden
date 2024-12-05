@@ -1,0 +1,3 @@
+[submodule "js-eden"]
+	path = js-eden
+	url = https://github.com/EMGroup/js-eden

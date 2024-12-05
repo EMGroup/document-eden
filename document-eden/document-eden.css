@@ -1,0 +1,114 @@
+div.outputcontent{
+    font-size: inherit !important;
+  }
+div.eden-comment-line{
+  font-size: inherit !important;
+
+}
+  div.eden-line{
+    line-height: 1.1 !important;
+  }
+  .outputcontent div.eden-line{
+    line-height: 0 !important;
+  }
+  div.eden-line:has(div:not(:empty)){
+    line-height: 1.1 !important;
+  }
+  div.eden-gutter, div.outputcontent{
+    padding-top:0px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+  }
+  div.eden-gutter-item.play:after{
+    font-size: inherit !important;
+    padding-top: 18%;
+    line-height: 1;
+  }
+  div.eden-gutter-item.unexecuted:not(.play)::after{
+    font-size: inherit !important;
+    padding-top: 18%;
+    line-height: 1;
+  }
+
+  table.obslist{
+    width: 100%;
+  }
+  table.obslist tr td:first-of-type{
+    text-align: right;
+    width: fit-content;
+  }
+  table.obslist tr td:nth-of-type(2){
+    text-align: left;
+    max-width: 100%;
+  }
+  table.obslist tr td:nth-of-type(2) span{
+    display: inline-block;
+    overflow-x: scroll;
+    max-width: 80%;
+    scrollbar-color: #ffffff;
+    white-space: nowrap;
+  }
+  div.script.box{
+    position:relative; 
+    width: 100%; 
+    display: block !important;
+    height: 200px;
+  }
+  div.script.hide{
+    display:none;
+  }
+  #observableEditor{
+    display:none;
+  }
+
+  #observableEditor.active{
+    display:block;
+    /* width: fit-content; */
+    position: absolute;
+    border: solid 5px black;
+    width: 5rem;
+    padding-right: 1em;
+    height:2rem;
+    background-color: wheat;
+  }
+
+  #observableEditor input{
+    /* top: 0px; */
+    position:absolute;
+    /* width: 5rem; */
+    inset: 0;
+  }
+
+  span.observable{
+    border-bottom: 3px dotted blue;
+    cursor:grabbing;
+  }
+
+  span.observable:focus-visible{
+    border-bottom: 5px solid blue;
+  }
+
+  #observableEditor input{
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .reveal .controls button.resetState{
+    bottom: 1.4em;
+    right: 6em;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  button.resetState div{
+    visibility: visible;
+  }
+  .invisible{
+    display:none;
+  }
+  .showhidecode{
+    text-decoration: underline;
+    font-size: smaller;
+    cursor: pointer;
+  }
