@@ -272,6 +272,15 @@ DocumentEden.setupEdenQueries = function () {
 	});
 }
 
+DocumentEden.run = function(edenScript){
+	return new Promise((resolve, reject) =>{
+		let myFragment = new Eden.Fragment("tmp", () => {
+			myFragment.setSourceInitial(edenScript);
+			myFragment.ast.execute(EdenSymbol.defaultAgent, root.scope, resolve);
+		});
+	});
+}
+
 DocumentEden.executeJSEdenScript = function (edenScript, scriptName) {
 	return new Promise((resolve, reject) => {
 		console.log("Creating script", scriptName);
@@ -605,7 +614,9 @@ DocumentEden.createDependency = function (code, updateID, jsObserver) {
 
 DocumentEden.getDefinition = function (sym) {
 	let s = root.lookup(sym);
-	return [s.origin.type, s.origin.source, s.value()];
+	if(s.origin !== undefined)
+		return [s.origin.type, s.origin.source, s.value()];
+	return [undefined, undefined, s.value()];
 }
 
 window.DocumentEden = DocumentEden;
