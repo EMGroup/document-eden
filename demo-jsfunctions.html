@@ -36,10 +36,17 @@
           setTimeout(()=>{
             let result = n * n;
             resolve(result);
-          },10);
+          },2000);
         });
         return myPromise;
       }
+      //Or define the function as async
+      jsFunctions["getReadme"] = async ()=>{
+        const response = await fetch("README.md");
+        const text = await response.text();
+        return text;
+      }
+
     </script>
     <!-- A helper method to call the user-defined functions -->
     <script>
@@ -82,6 +89,7 @@
         nm is jsCall with jsName = "multiply", params = [n,m];
         second is jsCall with jsName = "waitasecond", params = [n];
         doubleSecond is second * 2;
+        text is jsCall with jsName = "getReadme", params = [];
     </script>
     <style>
       .jseden-extract{
@@ -120,12 +128,7 @@
     <li><span class="jseden-extract">nm is jsCall with jsName = "multiply", params = [n,m];</span></li>
   </ul>
   <p>Whenever any of the observables within the <span class="jseden-extract">params</span> list are modified, the JavaScript function will be re-evaluated.</p>
-  <hr>
-  <h3>Calling Asynchronous Functions</h3>
-  <p>If an observable depends on a user-defined function that returns a promise, the observable will be set to an address (based on the name of the observable). When the promise is resolved, the value is assigned to an observable with the name of that address.</p>
-  <p>For instance, given the line
-  <pre class="jseden-extract">second is jsCall with jsName = "waitasecond", params = [n];</pre> the value of <span class="jseden-extract">second</span> is set to 'second_result'. When the <span class="js-extract">waitasecond</span> function resolves, the result is written to the observable <span class="jseden-extract">second_result</span>. This can either be used based on predicting the address (based on the above convention), or you can use backticks such as <span class="jseden-extract">`{second}`</span> which will dereference the address to get the result.
-  </p>
+  <p>Functions can return promises (or simply defined as async) - the value of the definition will be set when the promise resolves.</p>
   <hr>
   <p>n: £n=5£</p>
   <p>n<sup>2</sup>: £n2£</p>
@@ -141,5 +144,6 @@
   <p>£`{second}` with n is 7£</p>-->
   <p>£second£</p>
   <p>£doubleSecond£</p>
+  <p>£text£</p>
 </body>
 </html>
