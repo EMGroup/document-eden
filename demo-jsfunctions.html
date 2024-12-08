@@ -36,23 +36,26 @@
           setTimeout(()=>{
             let result = n * n;
             resolve(result);
-          },n*10);
+          },10);
         });
         return myPromise;
       }
       callJSFunction = function(context,scope){
         try{
           let result;
-          let jsfunction = context.lookup("jsName").value(scope);
-          console.log(jsfunction);
+          let jsFunctionName = context.lookup("jsName").value(scope);
           try{
-            result = jsFunctions[context.lookup("jsName").value(scope)](context.lookup("params").value(scope));
+            result = jsFunctions[jsFunctionName](context.lookup("params").value(scope));
           }catch(ex){
             console.error(ex);
           }
           if(typeof result === 'object' && typeof result.then === 'function'){
             //Need to make this address unique rather than just functionName - but also need to prevent it from creating loads of them. 
-            let addr = functionName + "_result";
+            let currentObsNames = [];
+            for(let i = 0; i < context.currentObservables.length; i++){
+              currentObsNames.push(context.currentObservables[i].name);
+            }
+            let addr = currentObsNames.join("_") + "_result";
             result.then((v)=>{
               context.lookup(addr).assign(v,context.scope,EdenSymbol.jsAgent);
             });
@@ -99,7 +102,7 @@
   <p>In the JSEden <span class="js-extract">script type="text/jseden"</span> tag:</p>
   <ul>
     <li>The <span class="jseden-extract">jsCall</span> definition allows for arbitrary functions to be called from the <span class="js-extract">jsFunctions</span> object</li>
-    <li><span class="jseden-extract">jsCall</span> passes the <span class="jseden-extract">params</span> observable as a parameter to the user-defined JavaScript function</li>
+    <li>It passes the context/scope to the <span class="js-extract">callJSFunction</span> function, which retrieves the <span class="jseden-extract">jsName</span> (function name) from the context/scope and calls the appropriate function from the <span class="js-extract">jsFunctions</span> object, using the parameters from the supplied <span class="jseden-extract">params</span> observable</li>
   </ul>
   <p>In the JavaScript <span class="js-extract">script</span> tag:</p>
   <ul>
@@ -113,6 +116,12 @@
   </ul>
   <p>Whenever any of the observables within the <span class="jseden-extract">params</span> list are modified, the JavaScript function will be re-evaluated.</p>
   <hr>
+  <h3>Calling Asynchronous Functions</h3>
+  <p>If an observable depends on a user-defined function that returns a promise, the observable will be set to an address (based on the name of the observable). When the promise is resolved, the value is assigned to an observable with the name of that address.</p>
+  <p>For instance, given the line
+  <pre class="jseden-extract">second is jsCall with jsName = "waitasecond", params = [n];</pre> the value of <span class="jseden-extract">second</span> is set to 'second_result'. When the <span class="js-extract">waitasecond</span> function resolves, the result is written to the observable <span class="jseden-extract">second_result</span>. This can either be used based on predicting the address (based on the above convention), or you can use backticks such as <span class="jseden-extract">`{second}`</span> which will dereference the address to get the result.
+  </p>
+  <hr>
   <p>n: £n=5£</p>
   <p>n<sup>2</sup>: £n2£</p>
   <p>n<sup>3</sup>: £n3£</p>
@@ -122,6 +131,11 @@
   <p>n &times; m: £nm£</p>
   <p>£second£</p>
   <p>£`{second}`£</p>
+  <p>£second_again£</p>
   <p>£`{second_again}`£</p>
+  <!-- This line has strange results:  
+   <p>£`{second_again}` with n is 1..10£</p> -->
+  <p>£`{second}` with n is 5£</p>
+  <p>£`{second}` with n is 7£</p>
 </body>
 </html>
