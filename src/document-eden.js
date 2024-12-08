@@ -14,6 +14,10 @@ DocumentEden.Utils = {};
 let debounceTimeout = null;
 
 let handleInput = (ev) => {
+	if(ev.target.matches("select")){
+		root.lookup(ev.target.parentElement.getAttribute("data-observable")).assign(ev.target.options[ev.target.selectedIndex].value, root.scope, EdenSymbol.jsAgent);
+		return;
+	}
 	clearTimeout(debounceTimeout);
 	debounceTimeout = setTimeout(() => {
 		let t = document.querySelector("#observableEditor input");
@@ -78,8 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			document.querySelector("body").appendChild(obsEditor);
 		}
 		obsEditor.appendChild(input);
+		let select = document.createElement("select");
+		obsEditor.appendChild(select);
 	}
 	document.querySelector("#observableEditor input").addEventListener("input", handleInput);
+	document.querySelector("#observableEditor select").addEventListener("change", handleInput);
 	document.addEventListener("keypress", (ev) => {
 		if (ev.target.matches("span.observable")) {
 			showObservableEditor(ev.target);
@@ -114,6 +121,18 @@ document.addEventListener("DOMContentLoaded", () => {
 	document.querySelector('#observableEditor input').addEventListener('blur', (e) => {
 		if (obsChange)
 			handleInput(ev);
+		document.querySelector("#observableEditor").classList.remove("active");
+		obsChange = false;
+	});
+
+	document.querySelector('#observableEditor select').addEventListener('blur', (e) => {
+		document.querySelector("#observableEditor").classList.remove("active");
+		obsChange = false;
+	});
+
+	document.querySelector('body').addEventListener('click', (e) => {
+		if(!e.target.matches("body"))
+			return;
 		document.querySelector("#observableEditor").classList.remove("active");
 		obsChange = false;
 	});
@@ -356,13 +375,34 @@ function showObservableEditor(target) {
 	if (target.closest("section")) {
 		target.closest("section").append(obsEditor);
 	}
+	if(target.matches(".selector")){
+		obsEditor.querySelector("input").style.display = 'none';
+		let selectEle = obsEditor.querySelector("select");
+		selectEle.textContent = '';
+		selectEle.style.display = 'inline-block';
+		let values = target.getAttribute("data-values").split("|");
+		let selValue = 0;
+		for(let i = 0; i < values.length; i++){
+			if(values[i] == target.innerText){
+				selValue = i;
+			}			
+			let option = document.createElement("option");
+			option.setAttribute("value", values[i]);
+			option.innerText = values[i];
+			selectEle.appendChild(option);
+		}
+		selectEle.options[selValue].defaultSelected = true;
+	}else{
+		obsEditor.querySelector("input").style.display = 'inline-block';
+		obsEditor.querySelector("select").style.display = 'none';
+		if (DocumentEden.Utils.isNumeric(target.innerText)) {
+			obsEditor.querySelector("input").setAttribute("type", "number");
+		} else {
+			obsEditor.querySelector("input").setAttribute("type", "text");
+		}
+	}
 	obsEditor.classList.add("active");
 	obsEditor.setAttribute("data-observable", target.getAttribute("data-observable"));
-	if (DocumentEden.Utils.isNumeric(target.innerText)) {
-		obsEditor.querySelector("input").setAttribute("type", "number");
-	} else {
-		obsEditor.querySelector("input").setAttribute("type", "text");
-	}
 	obsEditor.querySelector("input").value = target.innerText;
 	obsEditor.style.left = target.offsetLeft + 'px';
 	obsEditor.style.top = (target.offsetTop + target.offsetHeight) + 'px';
@@ -460,9 +500,18 @@ DocumentEden.renderJSEdenInText = function(text,svgMode) {
 						let value = split[1].trim();
 						if(DocumentEden.Utils.isNumeric(value)){
 							value = Number(value);
+							root.lookup(obsName).assign(value,root.scope,EdenSymbol.jsAgent);
+						}else{
+							let values = value.split("|");
+							if(values.length > 1){
+								span.classList.add("selector");
+								span.setAttribute("data-values",value);
+								root.lookup(obsName).assign(values[0],root.scope,EdenSymbol.jsAgent);
+							}else{
+							root.lookup(obsName).assign(value,root.scope,EdenSymbol.jsAgent);
+							}
 						}
 						span.setAttribute("data-observable",obsName);
-						root.lookup(obsName).assign(value,root.scope,EdenSymbol.jsAgent);
 						jseden = obsName;
 					}
 					// console.log("Should create dependency for ", jseden, "for", span);

@@ -73,7 +73,7 @@ div.eden-comment-line{
     background-color: wheat;
   }
 
-  #observableEditor input{
+  #observableEditor input,#observableEditor select{
     /* top: 0px; */
     position:absolute;
     /* width: 5rem; */
