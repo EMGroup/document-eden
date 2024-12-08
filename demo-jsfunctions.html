@@ -31,13 +31,38 @@
       jsFunctions.multiply = ([a,b])=>{
         return a * b;
       }
+      jsFunctions["waitasecond"] = (n)=>{
+        let myPromise = new Promise((resolve,reject)=>{
+          setTimeout(()=>{
+            let result = n * n;
+            resolve(result);
+          },n*10);
+        });
+        return myPromise;
+      }
+      callJSFunction = function(context, functionName, params){
+        let result = jsFunctions[functionName](params);
+        if(typeof result === 'object' && typeof result.then === 'function'){
+          //Need to make this address unique rather than just functionName - but also need to prevent it from creating loads of them. 
+          let addr = functionName + "_result";
+          result.then((v)=>{
+            // console.log("Setting result",v,"to",addr);
+            context.lookup(addr).assign(v,context.scope,EdenSymbol.jsAgent);
+          });
+          return addr;
+        }else{
+          return result;
+        }
+      }
     </script>
     <script type="text/jseden">
-        jsCall is ${{jsFunctions[context.lookup("jsName").value(scope)](context.lookup("params").value(scope))}}$::jsName = jsName, params = params;
+        jsCall is ${{callJSFunction(context,context.lookup("jsName").value(scope),(context.lookup("params").value(scope)))}}$::jsName = jsName, params = params;
         n = 5;
         n2 is jsCall with jsName = "square", params = [n];
         n3 is jsCall with jsName = "cube", params = [n];
         nm is jsCall with jsName = "multiply", params = [n,m];
+        second is jsCall with jsName = "waitasecond", params = [n];
+        secondresult is `{second}`;
     </script>
     <style>
       .jseden-extract{
@@ -84,5 +109,7 @@
   <p>m<sup>2</sup>: £n2 with n is m£</p>
   <p>m<sup>3</sup>: £n3 with n is m£</p>
   <p>n &times; m: £nm£</p>
+  <p>£secondresult£</p>
+  <p>£`{second}`£</p>
 </body>
 </html>
