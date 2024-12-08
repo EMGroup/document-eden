@@ -53,25 +53,19 @@
             console.error(ex);
           }
           if(typeof result === 'object' && typeof result.then === 'function'){
-            let mainSym = context.currentObservables[0];
-            console.log(mainSym);
-            let currentObsNames = [];
+            let currentObs = [];
             for(let i = 0; i < context.currentObservables.length; i++){
-              currentObsNames.push(context.currentObservables[i].name);
+              currentObs.push(context.currentObservables[i]);
             }
-            let addr = currentObsNames.join("_") + "_result";
             result.then((v)=>{
-              if(mainSym == undefined)
-                return;
-              mainSym.value = ()=>{return v;};
-              mainSym.changed = true;
-              mainSym.cache.value = v;
-              mainSym.cache.up_to_date = true;
-              mainSym.expireSubscribers();
-              mainSym.fireJSObservers();
-              context.lookup(addr).assign(v,context.scope,EdenSymbol.jsAgent);
+              for(let i = 0; i < currentObs.length; i++){
+                const thisObs = currentObs[i];
+                thisObs.cache.value = v;
+                thisObs.cache.up_to_date = true;
+                thisObs.expireSubscribers();
+                thisObs.fireJSObservers();
+              }
             });
-            return addr;
           }else{
             return result;
           }
@@ -83,12 +77,11 @@
     <script type="text/jseden">
         jsCall is ${{callJSFunction(context,scope)}}$::jsName = jsName, params = params;
         n = 5;
-#        n2 is jsCall with jsName = "square", params = [n];
-#        n3 is jsCall with jsName = "cube", params = [n];
-#        nm is jsCall with jsName = "multiply", params = [n,m];
+        n2 is jsCall with jsName = "square", params = [n];
+        n3 is jsCall with jsName = "cube", params = [n];
+        nm is jsCall with jsName = "multiply", params = [n,m];
         second is jsCall with jsName = "waitasecond", params = [n];
         doubleSecond is second * 2;
-#        second_again is jsCall with jsName = "waitasecond", params = [n+1];
     </script>
     <style>
       .jseden-extract{
@@ -134,22 +127,18 @@
   <pre class="jseden-extract">second is jsCall with jsName = "waitasecond", params = [n];</pre> the value of <span class="jseden-extract">second</span> is set to 'second_result'. When the <span class="js-extract">waitasecond</span> function resolves, the result is written to the observable <span class="jseden-extract">second_result</span>. This can either be used based on predicting the address (based on the above convention), or you can use backticks such as <span class="jseden-extract">`{second}`</span> which will dereference the address to get the result.
   </p>
   <hr>
-  <!-- <p>n: £n=5£</p>
+  <p>n: £n=5£</p>
   <p>n<sup>2</sup>: £n2£</p>
   <p>n<sup>3</sup>: £n3£</p>
   <p>m: £m=6£</p>
   <p>m<sup>2</sup>: £n2 with n is m£</p>
   <p>m<sup>3</sup>: £n3 with n is m£</p>
   <p>n &times; m: £nm£</p>
-  <p>£second£</p>
-  <p>£`{second}`£</p>
-  <p>£second_again£</p>
-  <p>£`{second_again}`£</p>
   <!-- This line has strange results:  
-   <p>£`{second_again}` with n is 1..10£</p> -->
+   <p>£`{second_again}` with n is 1..10£</p>
 
-   <!-- <p>£`{second}` with n is 5£</p> 
-  <p>£`{second}` with n is 7£</p> -->
+   <p>£`{second}` with n is 5£</p> 
+  <p>£`{second}` with n is 7£</p>-->
   <p>£second£</p>
   <p>£doubleSecond£</p>
 </body>
