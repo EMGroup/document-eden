@@ -652,4 +652,35 @@ DocumentEden.simpleLookup = function (s) {
 	})
 }
 
+DocumentEden.callJSFunction = function(context,scope){
+	try{
+		let result;
+		let jsFunctionName = context.lookup("jsName").value(scope);
+		try{
+		result = jsFunctions[jsFunctionName](context.lookup("params").value(scope));
+		}catch(ex){
+			console.error(ex);
+		}
+		if(typeof result === 'object' && typeof result.then === 'function'){
+		let currentObs = [];
+		for(let i = 0; i < context.currentObservables.length; i++){
+			currentObs.push(context.currentObservables[i]);
+		}
+		result.then((v)=>{
+			for(let i = 0; i < currentObs.length; i++){
+			const thisObs = currentObs[i];
+			thisObs.cache.value = v;
+			thisObs.cache.up_to_date = true;
+			thisObs.expireSubscribers();
+			thisObs.fireJSObservers();
+			}
+		});
+		}else{
+			return result;
+		}
+	}catch(ex){
+		console.error(ex);
+	}
+}
+
 window.DocumentEden = DocumentEden;

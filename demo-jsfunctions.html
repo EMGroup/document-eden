@@ -16,7 +16,7 @@
       window.allReady = new Promise((resolve)=>{ window.allReadyResolve = resolve});
       setTimeout(()=>{
         window.edenProjectLoaded.then(window.allReadyResolve);
-      },1000);
+      },100);
       window.DE = window.DocumentEden;
     </script>
     <!-- User defined jsFunctions -->
@@ -41,55 +41,22 @@
         return myPromise;
       }
       //Or define the function as async
-      jsFunctions["getReadme"] = async ()=>{
-        const response = await fetch("README.md");
+      jsFunctions["getReadme"] = async (filename)=>{
+        const response = await fetch(filename);
         const text = await response.text();
         return text;
       }
-
-    </script>
-    <!-- A helper method to call the user-defined functions -->
-    <script>
-      let callJSFunction = function(context,scope){
-        try{
-          let result;
-          let jsFunctionName = context.lookup("jsName").value(scope);
-          try{
-            result = jsFunctions[jsFunctionName](context.lookup("params").value(scope));
-          }catch(ex){
-            console.error(ex);
-          }
-          if(typeof result === 'object' && typeof result.then === 'function'){
-            let currentObs = [];
-            for(let i = 0; i < context.currentObservables.length; i++){
-              currentObs.push(context.currentObservables[i]);
-            }
-            result.then((v)=>{
-              for(let i = 0; i < currentObs.length; i++){
-                const thisObs = currentObs[i];
-                thisObs.cache.value = v;
-                thisObs.cache.up_to_date = true;
-                thisObs.expireSubscribers();
-                thisObs.fireJSObservers();
-              }
-            });
-          }else{
-            return result;
-          }
-        }catch(ex){
-          console.error(ex);
-        }
-      }
     </script>
     <script type="text/jseden">
-        jsCall is ${{callJSFunction(context,scope)}}$::jsName = jsName, params = params;
+        jsCall is ${{DocumentEden.callJSFunction(context,scope)}}$::jsName = jsName, params = params;
         n = 5;
         n2 is jsCall with jsName = "square", params = [n];
         n3 is jsCall with jsName = "cube", params = [n];
         nm is jsCall with jsName = "multiply", params = [n,m];
         second is jsCall with jsName = "waitasecond", params = [n];
         doubleSecond is second * 2;
-        text is jsCall with jsName = "getReadme", params = [];
+        text is jsCall with jsName = "getReadme", params = [fileName];
+        secondExplanation is "Loading..." if second == @ else "Ready";
     </script>
     <style>
       .jseden-extract{
@@ -137,13 +104,14 @@
   <p>m<sup>2</sup>: £n2 with n is m£</p>
   <p>m<sup>3</sup>: £n3 with n is m£</p>
   <p>n &times; m: £nm£</p>
-  <!-- This line has strange results:  
-   <p>£`{second_again}` with n is 1..10£</p>
-
-   <p>£`{second}` with n is 5£</p> 
-  <p>£`{second}` with n is 7£</p>-->
+  <p>£secondExplanation£</p>
   <p>£second£</p>
   <p>£doubleSecond£</p>
-  <p>£text£</p>
+  <hr>
+  <p>The below text is populated from £fileName=README.md£ - you can change this to LICENSE, etc., changes as you type (careful - possibly a security issue) - can also use full URLs to access an API</p>
+  <pre>£text£</pre>
+  <hr>
+  <p>This text is loaded from gruntfile.js extended with a <span class="jseden-extract">with</span></p>
+  <pre>£text with fileName="gruntfile.js"£</pre>
 </body>
 </html>
