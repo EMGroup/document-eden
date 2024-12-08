@@ -40,29 +40,40 @@
         });
         return myPromise;
       }
-      callJSFunction = function(context, functionName, params){
-        let result = jsFunctions[functionName](params);
-        if(typeof result === 'object' && typeof result.then === 'function'){
-          //Need to make this address unique rather than just functionName - but also need to prevent it from creating loads of them. 
-          let addr = functionName + "_result";
-          result.then((v)=>{
-            // console.log("Setting result",v,"to",addr);
-            context.lookup(addr).assign(v,context.scope,EdenSymbol.jsAgent);
-          });
-          return addr;
-        }else{
-          return result;
+      callJSFunction = function(context,scope){
+        try{
+          let result;
+          let jsfunction = context.lookup("jsName").value(scope);
+          console.log(jsfunction);
+          try{
+            result = jsFunctions[context.lookup("jsName").value(scope)](context.lookup("params").value(scope));
+          }catch(ex){
+            console.error(ex);
+          }
+          if(typeof result === 'object' && typeof result.then === 'function'){
+            //Need to make this address unique rather than just functionName - but also need to prevent it from creating loads of them. 
+            let addr = functionName + "_result";
+            result.then((v)=>{
+              context.lookup(addr).assign(v,context.scope,EdenSymbol.jsAgent);
+            });
+            return addr;
+          }else{
+            return result;
+          }
+        }catch(ex){
+          console.error(ex);
         }
+
       }
     </script>
     <script type="text/jseden">
-        jsCall is ${{callJSFunction(context,context.lookup("jsName").value(scope),(context.lookup("params").value(scope)))}}$::jsName = jsName, params = params;
+        jsCall is ${{callJSFunction(context,scope)}}$::jsName = jsName, params = params;
         n = 5;
         n2 is jsCall with jsName = "square", params = [n];
         n3 is jsCall with jsName = "cube", params = [n];
         nm is jsCall with jsName = "multiply", params = [n,m];
         second is jsCall with jsName = "waitasecond", params = [n];
-        secondresult is `{second}`;
+        second_again is jsCall with jsName = "waitasecond", params = [n+1];
     </script>
     <style>
       .jseden-extract{
@@ -109,7 +120,8 @@
   <p>m<sup>2</sup>: £n2 with n is m£</p>
   <p>m<sup>3</sup>: £n3 with n is m£</p>
   <p>n &times; m: £nm£</p>
-  <p>£secondresult£</p>
+  <p>£second£</p>
   <p>£`{second}`£</p>
+  <p>£`{second_again}`£</p>
 </body>
 </html>
