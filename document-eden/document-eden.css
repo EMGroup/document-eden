@@ -113,6 +113,6 @@ div.eden-comment-line{
     cursor: pointer;
   }
 
-  .canvashtml-content *{
+  .canvashtml-content *:not(canvas){
     position: relative;
   }
