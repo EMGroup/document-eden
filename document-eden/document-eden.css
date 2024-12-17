@@ -112,3 +112,7 @@ div.eden-comment-line{
     font-size: smaller;
     cursor: pointer;
   }
+
+  .canvashtml-content *{
+    position: relative;
+  }
