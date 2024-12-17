@@ -6,6 +6,7 @@ div.eden-comment-line{
 
 }
   div.eden-line{
+    height: 1em;
     line-height: 1.1 !important;
   }
   .outputcontent div.eden-line{
